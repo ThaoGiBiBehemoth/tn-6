@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       token = encode_token({ user_id: @user.id})
       render json: { user: @user, token: token }, status: 200 
     else
-      render json: { error: "Invalid!!!" }, status: 422
+      render json: @user.errors, status: 422
     end
   end
 
@@ -45,7 +45,7 @@ class UsersController < ApplicationController
       token = encode_token({ user_id: @user.id })
       render json: { user: @user, token: token }, status: 200
     else
-      render json: { error: 'Invalid nickname or password' }, status: 422 #:unprocessable_entity
+      render json: { error: 'Invalid!!' }, status: 422 #:unprocessable_entity
     end
   end
 
