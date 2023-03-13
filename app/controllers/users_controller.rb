@@ -15,7 +15,7 @@ class UsersController < ApplicationController
 
   # UPDATE (PATCH/PUT /users/1)
   def update
-    if @user.update(user_params)
+    if @user.update(user_params_u)
       render json: @user
     else
       render json: @user.errors, status: 422
@@ -35,7 +35,12 @@ class UsersController < ApplicationController
 
   # LOGIN
   def login
-    @user = User.find_by(nickname: user_params[:nickname])
+    if User.find_by(nickname: user_params[:nickname]) != nil
+      @user = User.find_by(nickname: user_params[:nickname])
+    else
+      @user = User.find_by(email: user_params[:email])
+    end
+
     if @user && @user.authenticate(user_params[:password])
       token = encode_token({ user_id: @user.id })
       render json: { user: @user, token: token }, status: 200
@@ -47,6 +52,10 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:nickname, :password, :email)
+  end
+
+  def user_params_u
+    params.require(:user).permit(:nickname, :password)
   end
 
   def set_user

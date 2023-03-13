@@ -1,4 +1,4 @@
 class TaskSerializer < ActiveModel::Serializer
-  attributes :id, :title, :descrip, :done
-  has_one :user
+  attributes :id, :title, :descrip, :done, :deadline
+  # has_one :user
 end
